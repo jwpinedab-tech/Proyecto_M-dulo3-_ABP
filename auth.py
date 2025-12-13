@@ -64,4 +64,3 @@ def login():
     
     # Retornar el usuario si el login fue exitoso
     return usuario
-

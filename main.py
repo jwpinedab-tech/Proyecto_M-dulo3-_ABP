@@ -15,7 +15,10 @@ from data_manager import (
 )
 from utils import (
     validar_numero,
-    calcular_total_tareas_completadas
+    calcular_total_tareas_completadas,
+    ESTADOS_VALIDOS,
+    PRIORIDADES_VALIDAS,
+    validar_prioridad
 )
 from reports import (
     mostrar_tabla,
@@ -76,25 +79,20 @@ def opcion_agregar_proyecto():
     nombre = input("Nombre del proyecto: ").strip()
     cliente = input("Cliente: ").strip()
     
-    print("\nEstados disponibles: Pendiente, En Progreso, Finalizado")
+    print(f"\nEstados disponibles: {', '.join(sorted(ESTADOS_VALIDOS))}")
     estado = input("Estado: ").strip()
     
     # Validar estado
-    estados_validos = {"Pendiente", "En Progreso", "Finalizado"}
-    if estado not in estados_validos:
+    if estado not in ESTADOS_VALIDOS:
         print(f"\n❌ Estado inválido. Usando 'Pendiente' por defecto.\n")
         estado = "Pendiente"
     
     horas_estimadas = validar_numero("Horas estimadas: ")
     tareas_completadas = validar_numero("Tareas completadas: ")
     
-    print("\nPrioridades: Alta (1), Media (2), Baja (3)")
-    prioridad_nombre = input("Prioridad (Alta/Media/Baja): ").strip().capitalize()
-    
-    if prioridad_nombre not in ["Alta", "Media", "Baja"]:
-        prioridad_nombre = "Media"
-    
-    prioridad_num = {"Alta": 1, "Media": 2, "Baja": 3}[prioridad_nombre]
+    print(f"\nPrioridades: {', '.join([f'{k} ({v})' for k, v in PRIORIDADES_VALIDAS.items()])}")
+    prioridad_input = input("Prioridad (Alta/Media/Baja): ").strip()
+    prioridad_nombre, prioridad_num = validar_prioridad(prioridad_input)
     
     # Crear diccionario del proyecto
     nuevo_proyecto = {
@@ -121,12 +119,11 @@ def opcion_filtrar_por_estado():
     """
     print("\n🔍 FILTRAR POR ESTADO")
     print("-" * 70)
-    print("Estados disponibles: Pendiente, En Progreso, Finalizado")
+    print(f"Estados disponibles: {', '.join(sorted(ESTADOS_VALIDOS))}")
     
     estado = input("Ingresa el estado a filtrar: ").strip()
     
-    estados_validos = {"Pendiente", "En Progreso", "Finalizado"}
-    if estado not in estados_validos:
+    if estado not in ESTADOS_VALIDOS:
         print(f"\n❌ Estado inválido. Por favor, ingresa uno de los estados válidos.\n")
         return
     
@@ -158,41 +155,52 @@ def opcion_reporte_productividad():
 def menu_principal():
     """
     Función principal que maneja el menú y las opciones del sistema.
+    Maneja KeyboardInterrupt para salir gracefully.
     """
     mostrar_encabezado_principal()
     
-    while True:
-        mostrar_menu()
-        opcion = input("Selecciona una opción (1-5): ").strip()
-        
-        if opcion == "1":
-            opcion_ver_todos_proyectos()
-        elif opcion == "2":
-            opcion_agregar_proyecto()
-        elif opcion == "3":
-            opcion_filtrar_por_estado()
-        elif opcion == "4":
-            opcion_reporte_productividad()
-        elif opcion == "5":
-            print("\n" + "=" * 70)
-            print(" " * 20 + "👋 ¡Hasta luego!")
-            print("=" * 70 + "\n")
-            break
-        else:
-            print("\n❌ Opción inválida. Por favor, selecciona una opción del 1 al 5.\n")
+    try:
+        while True:
+            mostrar_menu()
+            opcion = input("Selecciona una opción (1-5): ").strip()
+            
+            if opcion == "1":
+                opcion_ver_todos_proyectos()
+            elif opcion == "2":
+                opcion_agregar_proyecto()
+            elif opcion == "3":
+                opcion_filtrar_por_estado()
+            elif opcion == "4":
+                opcion_reporte_productividad()
+            elif opcion == "5":
+                print("\n" + "=" * 70)
+                print(" " * 20 + "👋 ¡Hasta luego!")
+                print("=" * 70 + "\n")
+                break
+            else:
+                print("\n❌ Opción inválida. Por favor, selecciona una opción del 1 al 5.\n")
+    except KeyboardInterrupt:
+        print("\n\n⚠️ Operación cancelada. ¡Hasta luego!\n")
 
 
 def main():
     """
     Función principal del programa.
     Ejecuta el login y, si es exitoso, inicia el menú principal.
+    Maneja KeyboardInterrupt para salir gracefully.
     """
-    usuario = login()
-    
-    if usuario:
-        menu_principal()
-    else:
-        print("❌ No se pudo autenticar. El sistema se cerrará.\n")
+    try:
+        usuario = login()
+        
+        if usuario:
+            menu_principal()
+        else:
+            print("❌ No se pudo autenticar. El sistema se cerrará.\n")
+    except KeyboardInterrupt:
+        print("\n\n⚠️ Programa interrumpido por el usuario. ¡Hasta luego!\n")
+    except Exception as e:
+        print(f"\n❌ Error inesperado: {e}\n")
+        print("Por favor, contacta al administrador del sistema.\n")
 
 
 if __name__ == "__main__":

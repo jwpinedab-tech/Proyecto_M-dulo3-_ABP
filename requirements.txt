@@ -1,0 +1,6 @@
+# Sistema de Gestión de Proyectos - Agencia de Desarrollo Web
+# Python 3.7+
+
+# No se requieren dependencias externas
+# El proyecto utiliza solo la biblioteca estándar de Python
+
