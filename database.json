@@ -1,0 +1,49 @@
+{
+    "usuarios": {
+        "admin": "1234",
+        "jacqueline": "dev2025"
+    },
+    "proyectos": [
+        {
+            "id": 1,
+            "nombre": "E-commerce Zapatillas",
+            "cliente": "Nike",
+            "estado": "En Progreso",
+            "horas_estimadas": 120,
+            "tareas_completadas": 5,
+            "prioridad": ["Alta", 1],
+            "fecha_inicio": "2024-12-15",
+            "fecha_actualizacion": "2024-12-30"
+        },
+        {
+            "id": 2,
+            "nombre": "Landing Page",
+            "cliente": "Abogado Perez",
+            "estado": "Pendiente",
+            "horas_estimadas": 10,
+            "tareas_completadas": 0,
+            "prioridad": ["Media", 2],
+            "fecha_inicio": "2024-12-25",
+            "fecha_actualizacion": "2024-12-30"
+        },
+        {
+            "id": 3,
+            "nombre": "Blog Corporativo",
+            "cliente": "Tech Solutions",
+            "estado": "Finalizado",
+            "horas_estimadas": 40,
+            "tareas_completadas": 40,
+            "prioridad": ["Baja", 3],
+            "fecha_inicio": "2024-11-01",
+            "fecha_fin": "2024-12-20",
+            "fecha_actualizacion": "2024-12-30"
+        }
+    ],
+    "metadata": {
+        "version": "1.0.0",
+        "fecha_creacion": "2024-12-30 12:00:00",
+        "total_proyectos": 3,
+        "total_usuarios": 2
+    }
+}
+

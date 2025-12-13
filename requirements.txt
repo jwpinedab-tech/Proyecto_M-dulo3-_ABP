@@ -4,3 +4,5 @@
 # No se requieren dependencias externas
 # El proyecto utiliza solo la biblioteca estándar de Python
 
+
+
